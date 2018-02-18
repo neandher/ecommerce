@@ -1,0 +1,4 @@
+services:
+    App\Component\User\:
+        resource: '../../../src/Component/User/*'
+        exclude: '../../../src/Component/User/{Model,Repository,Event}'

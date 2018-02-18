@@ -1,0 +1,7 @@
+shop_controllers:
+    resource: ../../src/Ecommerce/Shop/Controller/
+    type: annotation
+
+admin_controllers:
+    resource: ../../src/Ecommerce/Admin/Controller/
+    type: annotation

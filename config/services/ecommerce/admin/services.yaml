@@ -1,0 +1,15 @@
+services:
+
+    App\Component\User\Security\UserImpersonator:
+        $firewallContextName: 'shop'
+
+    App\Component\User\Provider\UsernameOrEmailProvider:
+        parent: App\Component\User\Provider\AbstractUserProvider
+        arguments:
+            index_0: '' #AdminUser Entity
+            index_1: '' #AdminUser Repository
+        #alias: app.admin_user_provider.email_or_name_based
+
+    App\Component\User\Controller\UserController:
+        $userRepository: '' #AdminUser Repository
+        #alias: app.controller.admin_user

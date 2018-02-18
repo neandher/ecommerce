@@ -1,0 +1,4 @@
+services:
+    App\Component\Core\:
+        resource: '../../../src/Component/Core/*'
+        exclude: '../../../src/Component/Core/{Model}'
