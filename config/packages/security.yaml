@@ -1,24 +1,78 @@
+parameters:
+    app.security.admin_regex: "^/admin"
+    app.security.api_regex: "^/api"
+    app.security.shop_regex: "^/(?!admin|api)[^/]++"
+
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        admin_user_provider:
+            id: app.admin_user_provider.email_or_name_based
+        shop_user_provider:
+            id: app.shop_user_provider.email_or_name_based
+
+    encoders:
+        App\Component\User\Model\User: bcrypt
+
     firewalls:
+        admin:
+            provider: admin_user_provider
+            switch_user: true
+            context: admin
+            pattern: "%app.security.admin_regex%"
+            form_login:
+                provider: admin_user_provider
+                login_path: admin_login
+                check_path: admin_login_check
+                failure_path: admin_login
+                default_target_path: admin_dashboard
+                use_forward: false
+                use_referer: true
+            remember_me:
+                secret: "%env(APP_SECRET)%"
+                path: /admin
+                name: APP_ADMIN_REMEMBER_ME
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: admin_logout
+                target: admin_login
+            anonymous: true
+
+        shop:
+            provider: shop_user_provider
+            switch_user: { role: ROLE_ALLOWED_TO_SWITCH }
+            context: shop
+            pattern: "%app.security.shop_regex%"
+            form_login:
+                provider: shop_user_provider
+                login_path: shop_login
+                check_path: shop_login_check
+                failure_path: shop_login
+                default_target_path: shop_account_dashboard
+                use_forward: false
+                use_referer: true
+            remember_me:
+                secret: "%env(APP_SECRET)%"
+                name: APP_SHOP_REMEMBER_ME
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: shop_logout
+                target: shop_login
+                invalidate_session: false
+            anonymous: true
+
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
 
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: "%app.security.admin_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.admin_regex%/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
+
+        - { path: "%app.security.shop_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.shop_regex%/register", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.shop_regex%/account", role: ROLE_USER }

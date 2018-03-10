@@ -1,0 +1,54 @@
+user:
+    login:
+        title:
+            Login
+        errors:
+            email_not_found: E-mail não encontrado.
+            password_invalid: Senha Inválida.
+        btns:
+            login: Login
+        links:
+            forgot_password: Esqueceu a senha?
+    resetting:
+        request:
+            title: Resetar Senha
+            errors:
+                email_not_found: E-mail não existe.
+                password_already_requested: Este usuário já solicitou uma senha nas últimas 24 horas.
+            btns:
+                send: Enviar
+            links:
+                login: Efetuar Login
+            check_email: Foi enviado um e-mail para user_email. Para recuperar a sua senha, clique no link da mensagem.
+            email:
+                subject: Esqueci Minha Senha
+                message: |
+                    Olá, %full_name%!
+
+                    Para redefinir sua senha, clique no link: %url%
+
+                    Atenciosamente,
+                    a Equipe.
+        reset:
+            title: Resetar Senha
+            btns:
+                send: Alterar Senha
+            errors:
+                invalid_token: Token Inválido.
+                expired_token: Token Expirado.
+                mismatch: As senhas não correspondem
+            success: A senha foi redefinida com sucesso.
+    change_password:
+        title: Alterar Senha
+        success: A senha foi alterada com sucesso.
+        btns:
+            submit: Alterar Senha
+    form:
+        email: E-mail
+        current_password: Senha atual
+        password: Senha
+        confirm_password: Confirme a Senha
+        new_password: Nova senha
+        new_password_confirmation: Confirme a nova senha
+        is_enabled: Ativo
+        remember_me: Lembrar-me

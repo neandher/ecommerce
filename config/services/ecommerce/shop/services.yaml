@@ -1,15 +1,13 @@
 services:
-    App\Component\User\Provider\UsernameOrEmailProvider:
-        parent: App\Component\User\Provider\AbstractUserProvider
+
+    app.shop_user_provider.email_or_name_based:
+        class: App\Component\User\Provider\UsernameOrEmailProvider
         arguments:
-            index_0: '' #ShopUser Entity
-            index_1: '' #ShopUser Repository
-        #alias: app.shop_user_provider.email_or_name_based
+            $supportedUserClass: '' #ShopUser Entity
+            $userRepository: '' #ShopUser Repository
 
-    App\Component\User\Controller\UserController:
-        $userRepository: ''
-        #alias: app.controller.shop_user
-
-    App\Component\User\Controller\UserController:
-        $userRepository: '' #ShopUser Repository
-        #alias: app.controller.shop_user
+    app.controller.shop_user:
+        class: App\Component\User\Controller\UserController
+        arguments:
+            $userRepository: ''
+            $tokenTTL: ''

@@ -3,8 +3,9 @@
 namespace App\Component\User\Repository;
 
 use App\Component\User\Model\UserInterface;
+use Component\Resource\Repository\RepositoryInterface;
 
-interface UserRepositoryInterface
+interface UserRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $email

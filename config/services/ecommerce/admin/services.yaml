@@ -1,15 +1,18 @@
 services:
 
-    App\Component\User\Security\UserImpersonator:
-        $firewallContextName: 'shop'
-
-    App\Component\User\Provider\UsernameOrEmailProvider:
-        parent: App\Component\User\Provider\AbstractUserProvider
+    app.security.shop_user_impersonator:
+        class: App\Component\User\Security\UserImpersonator
         arguments:
-            index_0: '' #AdminUser Entity
-            index_1: '' #AdminUser Repository
-        #alias: app.admin_user_provider.email_or_name_based
+            $firewallContextName: 'shop'
 
-    App\Component\User\Controller\UserController:
-        $userRepository: '' #AdminUser Repository
-        #alias: app.controller.admin_user
+    app.admin_user_provider.email_or_name_based:
+        class: App\Component\User\Provider\UsernameOrEmailProvider
+        arguments:
+            $supportedUserClass: '' #AdminUser Entity
+            $userRepository: '' #AdminUser Repository
+
+    app.controller.admin_user:
+        class: App\Component\User\Controller\UserController
+        arguments:
+            $userRepository: ''
+            $tokenTTL: ''
