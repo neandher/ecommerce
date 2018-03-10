@@ -1,13 +1,20 @@
 services:
 
+    app.shop_user_repository:
+        class:  Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - App\Ecommerce\Shop\Entity\ShopUser
+
     app.shop_user_provider.email_or_name_based:
         class: App\Component\User\Provider\UsernameOrEmailProvider
         arguments:
-            $supportedUserClass: '' #ShopUser Entity
-            $userRepository: '' #ShopUser Repository
+            $supportedUserClass: App\Ecommerce\Shop\Entity\ShopUser #ShopUser Entity
+            $userRepository: '@app.shop_user_repository' #ShopUser Repository
+            $canonicalizer: '@App\Component\User\Canonicalizer\Canonicalizer'
 
     app.controller.shop_user:
         class: App\Component\User\Controller\UserController
         arguments:
-            $userRepository: ''
-            $tokenTTL: ''
+            $userRepository: '@app.shop_user_repository'
+            $tokenTTL: '%token_ttl%'

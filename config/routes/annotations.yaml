@@ -1,7 +1,15 @@
+admin_controllers:
+    resource: ../../src/Ecommerce/Admin/Controller/
+    type: annotation
+    prefix: /admin
+
+admin_user:
+    resource: 'routing_admin_user.yml'
+    prefix: /admin
+
 shop_controllers:
     resource: ../../src/Ecommerce/Shop/Controller/
     type: annotation
 
-admin_controllers:
-    resource: ../../src/Ecommerce/Admin/Controller/
-    type: annotation
+shop_user:
+    resource: 'routing_shop_user.yml'

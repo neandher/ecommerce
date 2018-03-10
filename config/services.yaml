@@ -8,7 +8,21 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'pt_BR'
+    token_ttl: 86400
+
+    shop_resetting_email.from: "noreply@dev.com"
+    shop_resetting_email.template: "shop/account/resetting/email.txt.twig"
+    shop_resetting_email.route: "shop_resetting_reset"
+
+    shop_register_email:
+        from: "noreply@dev.com"
+        template: "shop/account/register/email.txt.twig"
+        route: "shop_register_confirm"
+
+    admin_resetting_email.from: "noreply@dev.com"
+    admin_resetting_email.template: "admin/resetting/email.txt.twig"
+    admin_resetting_email.route: "admin_resetting_reset"
 
 services:
     # default configuration for services in *this* file
@@ -22,17 +36,13 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
 
-#    App\Component\:
-#        resource: '../src/Component/*'
-#        exclude: '../src/Component/{Resource,User,Kernel.php}'
-
     App\Ecommerce\Shop\:
         resource: '../src/Ecommerce/Shop/*'
-        exclude: '../src/Ecommerce/Shop/{Entity,Repository}'
+        exclude: '../src/Ecommerce/Shop/{Entity}'
 
     App\Ecommerce\Admin\:
         resource: '../src/Ecommerce/Admin/*'
-        exclude: '../src/Ecommerce/Admin/{Entity,Repository}'
+        exclude: '../src/Ecommerce/Admin/{Entity}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

@@ -9,7 +9,7 @@ use App\Component\User\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AdminBundle\Repository\AdminUserRepository")
+ * @ORM\Entity(repositoryClass="App\Ecommerce\Admin\Repository\AdminUserRepository")
  * @ORM\Table(name="admin_user")
  * @UniqueEntity(fields={"email"}, message="user.email.already_exists")
  */

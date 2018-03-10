@@ -1,0 +1,45 @@
+shop_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: App\Component\User\Controller\SecurityController:loginAction
+        _app_options:
+            template: "shop/login.html.twig"
+
+shop_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: App\Component\User\Controller\SecurityController:checkAction
+
+shop_logout:
+    path: /logout
+    methods: [GET]
+
+shop_resetting_request:
+    path: /resetting/request
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.shop_user:resettingRequestAction
+        _app_options:
+            template: "shop/account/resetting/resettingRequest.html.twig"
+            redirect: shop_login
+            email_params: {from: "%shop_resetting_email.from%", route: "%shop_resetting_email.route%", template: "%shop_resetting_email.template%"}
+
+shop_resetting_reset:
+    path: /resetting/reset/{token}
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.shop_user:resettingResetAction
+        _app_options:
+            template: "shop/account/resetting/resettingReset.html.twig"
+            redirect: shop_account_dashboard
+
+shop_change_password:
+    path: /change-password
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.shop_user:changePasswordAction
+        _app_options:
+            template: "shop/account/changePassword/changePassword.html.twig"
+            redirect: shop_account_dashboard

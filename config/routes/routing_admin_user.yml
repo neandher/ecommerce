@@ -1,0 +1,51 @@
+admin_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: App\Component\User\Controller\SecurityController:loginAction
+        _app_options:
+            template: "admin/login.html.twig"
+
+admin_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: App\Component\User\Controller\SecurityController:checkAction
+
+admin_logout:
+    path: /logout
+    methods: [GET]
+
+admin_resetting_request:
+    path: /resetting/request
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:resettingRequestAction
+        _app_options:
+            template: "admin/resetting/resettingRequest.html.twig"
+            redirect: admin_login
+            email_params: {from: "%admin_resetting_email.from%", route: "%admin_resetting_email.route%", template: "%admin_resetting_email.template%"}
+
+admin_resetting_reset:
+    path: /resetting/reset/{token}
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:resettingResetAction
+        _app_options:
+            template: "admin/resetting/resettingReset.html.twig"
+            redirect: admin_login
+
+admin_change_password:
+    path: /change-password
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:changePasswordAction
+        _app_options:
+            template: "admin/changePassword/changePassword.html.twig"
+            redirect: admin_dashboard
+
+admin_impersonate_user:
+    path: /impersonate/{username}
+    defaults:
+        _controller: 'app.controller.admin_impersonate_shop_user:impersonateAction'
+        username: $username

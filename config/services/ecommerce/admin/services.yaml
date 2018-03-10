@@ -1,5 +1,11 @@
 services:
 
+    app.admin_user_repository:
+        class:  Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - App\Ecommerce\Admin\Entity\AdminUser
+
     app.security.shop_user_impersonator:
         class: App\Component\User\Security\UserImpersonator
         arguments:
@@ -7,12 +13,14 @@ services:
 
     app.admin_user_provider.email_or_name_based:
         class: App\Component\User\Provider\UsernameOrEmailProvider
+        parent:
         arguments:
-            $supportedUserClass: '' #AdminUser Entity
-            $userRepository: '' #AdminUser Repository
+            $supportedUserClass: App\Ecommerce\Admin\Entity\AdminUser #AdminUser Entity
+            $userRepository: '@app.admin_user_repository' #AdminUser Repository
+            $canonicalizer: '@App\Component\User\Canonicalizer\Canonicalizer'
 
     app.controller.admin_user:
         class: App\Component\User\Controller\UserController
         arguments:
-            $userRepository: ''
-            $tokenTTL: ''
+            $userRepository: '@app.admin_user_repository'
+            $tokenTTL: '%token_ttl%'

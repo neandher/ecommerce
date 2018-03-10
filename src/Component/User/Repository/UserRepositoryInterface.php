@@ -2,8 +2,8 @@
 
 namespace App\Component\User\Repository;
 
+use App\Component\Resource\Repository\RepositoryInterface;
 use App\Component\User\Model\UserInterface;
-use Component\Resource\Repository\RepositoryInterface;
 
 interface UserRepositoryInterface extends RepositoryInterface
 {
